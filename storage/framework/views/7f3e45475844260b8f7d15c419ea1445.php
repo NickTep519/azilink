@@ -141,7 +141,7 @@
 
                         <div class="dropdown d-inline-block mr-25">
                             <button id="enableSoundBtn" style="all:unset ; cursor: pointer"></button>
-                            <span class="badge-notify" id="notifCount">0</span>
+                            <span class="badge-notify" id="notifCount"></span>
                             <a class="btn btn-notify position-relative" id="dropdownNotify" type="button"
                                 style="color: black" data-bs-toggle="dropdown" aria-expanded="false"
                                 data-bs-display="static">

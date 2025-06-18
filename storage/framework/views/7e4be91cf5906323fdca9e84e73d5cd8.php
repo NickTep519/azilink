@@ -21,8 +21,8 @@
                 <div class="profile-card-4 z-depth-3">
                     <div class="card">
                         <div class="card-body text-center bg-primary rounded-top" style="background-color: blue !important">
-                            <div class="user-box">
-                                <img src="<?php echo e(asset('/storage/' . $user->image)); ?>" alt="user avatar">
+                            <div>
+                                <img src="<?php echo e(asset('/storage/' . $user->image)); ?>" alt="user avatar" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;" >
                             </div>
                             <h5 class="mb-1 text-white"> <?php echo e($user->first_name); ?> <?php echo e($user->name); ?>
 

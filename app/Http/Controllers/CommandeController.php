@@ -99,7 +99,7 @@ class CommandeController extends Controller
         }
        
        
-        if ($validated['kg_commande'] >= ($annonce->kg - $nbr_kilo_annonce)) {
+        if ($validated['kg_commande'] > ($annonce->kg - $nbr_kilo_annonce)) {
             
             return back()->with('warning', 'Plus d\'assez kilo disponible pour ce trajet, créer un nouveau') ; 
             

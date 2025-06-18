@@ -52,6 +52,12 @@
                     <input type="text" id="first_name" name="first_name" value="{{old('first_name')}}" required autofocus autocomplete="name" class="form-control username">
                     <x-input-error :messages="$errors->get('first_name')" class="mt-2" />
                 </div>
+
+                 <div class="form-group"> 
+                    <label for="phone" :value="__('phone')"  class="text-sm-medium">Tel * :</label>
+                    <input type="text" id="phone" name="phone" value="{{old('phone')}}" required autofocus autocomplete="name" class="">
+                    <x-input-error :messages="$errors->get('phone')" class="mt-2" />
+                </div>
     
                  <!-- Email Address -->
     
@@ -103,5 +109,36 @@
         </div>
       </section>
 </main>
+
+
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/intlTelInput.min.js"></script>
+
+    <script>
+        const input = document.querySelector("#phone");
+        // window.intlTelInput(input, {
+        //     loadUtils: () => import("https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/utils.js"),
+        // });
+
+        const userCountry = "{{ auth()->user()->country_code ?? 'bj' }}";
+
+        intlTelInput(input, {
+            initialCountry: "auto",
+            geoIpLookup: (success, failure) => {
+                fetch("https://ipapi.co/json")
+                    .then((res) => res.json())
+                    .then((data) => success(data.country_code))
+                    .catch(() => failure());
+            },
+            initialCountry: userCountry.toLowerCase(),
+            hiddenInput: (telInputName) => ({
+                phone: "phone_full",
+                country: "country_code"
+            }),
+            separateDialCode: true
+        });
+    </script>
+
+
+
     
 @endsection

@@ -11,8 +11,10 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect as FacadesRedirect;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use Redirect;
 
 class RegisteredUserController extends Controller
 {
@@ -35,6 +37,7 @@ class RegisteredUserController extends Controller
             'pseudo' => ['required', 'string', 'max:255'],
             'name' => ['required', 'string', 'max:255'],
             'first_name' => ['required', 'string', 'max:255'],
+            'phone' => ['required', 'string', 'max:20', 'unique:users,phone'], 
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::min(8)
                                                                     ->mixedCase() // Majuscules et minuscules requises
@@ -49,7 +52,10 @@ class RegisteredUserController extends Controller
             'pseudo' => $request->pseudo, 
             'name' => $request->name,
             'first_name' => $request->first_name,
+            'phone' => $request->phone, 
             'email' => $request->email,
+            'image' => 'images/avatar.png', 
+            'country_code' => $request->country_code, 
             'password' => Hash::make($request->password),
         ]);
 
@@ -59,6 +65,7 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('emailverified');
+        return redirect(RouteServiceProvider::PROFILE)->with('warning', 'Veuillez compléter vos informations puis sauvegardez ') ; 
+        // return redirect()->route('emailverified');
     }
 }

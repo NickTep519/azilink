@@ -101,7 +101,7 @@ Route::prefix('messages')->controller(ConversationController::class)->name('conv
     Route::get('/conversations/{conversation}', 'fetchMessages')->name('fetchMessages');
 });
 
-Route::prefix('/messenger')->controller(MessengerController::class)->name('messenger.')->middleware(['auth', 'check.user.details'])->group(function() {
+Route::prefix('/messenger')->controller(MessengerController::class)->name('messenger.')->middleware(['auth', 'verified', 'check.user.details'])->group(function() {
     Route::get('/', 'base')->name('base') ; 
     Route::get('/conversations/{id}/messages', 'index' )->name('index') ; 
     Route::get('/conversations/{conversation}/show', 'show')->name('show') ; 

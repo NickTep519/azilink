@@ -72,6 +72,8 @@ class PhoneVerificationController extends Controller
         if ($isValid) {
             $user = User::where('phone', str_replace(' ', '', $phone->formatNational()) )->first();
 
+            // dd($user) ; 
+
             if ($user && !$user->phone_verified_at) {
                 $user->phone_verified_at = now();
                 $user->save();

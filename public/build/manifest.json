@@ -1,0 +1,31 @@
+{
+  "_pusherClient-4ab91934.js": {
+    "file": "assets/pusherClient-4ab91934.js"
+  },
+  "resources/css/app.css": {
+    "file": "assets/app-cc27a504.css",
+    "isEntry": true,
+    "src": "resources/css/app.css"
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-fc32542f.js",
+    "imports": [
+      "_pusherClient-4ab91934.js"
+    ],
+    "isEntry": true,
+    "src": "resources/js/app.js"
+  },
+  "resources/js/filterConvers.js": {
+    "file": "assets/filterConvers-79fa7274.js",
+    "isEntry": true,
+    "src": "resources/js/filterConvers.js"
+  },
+  "resources/js/notification.js": {
+    "file": "assets/notification-08de2b1e.js",
+    "imports": [
+      "_pusherClient-4ab91934.js"
+    ],
+    "isEntry": true,
+    "src": "resources/js/notification.js"
+  }
+}
