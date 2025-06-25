@@ -40,8 +40,8 @@ const shareButton = document.querySelector('.share-button');
 const shareOptions = document.querySelector('.share-options');
   
 // Toggle des options de partage
-shareButton.addEventListener('click', () => {
-    shareOptions.style.display = shareOptions.style.display === 'block' ? 'none' : 'block';
+shareButton?.addEventListener('click', () => {
+    shareOptions.style.display = shareOptions?.style?.display === 'block' ? 'none' : 'block';
 });
   
 // Fermer le menu si on clique ailleurs

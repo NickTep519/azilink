@@ -43,12 +43,19 @@
             });
         }
     </script>
+    
+    <style>
+        .conversation-item:hover h5.me-auto {
+            text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+    </style>
 </head>
 
 <body data-user-id="{{ auth()->id() }}">
 
 
-    <nav class="navbar navbar-expand-lg bg-body-tertiary" style="padding-top: 0.2rem; padding-bottom: 0.2rem;">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary" style="padding-top: 0.01rem; padding-bottom: 0.01rem;">
         <!-- Container wrapper -->
         <div class="container-fluid">
 
@@ -394,7 +401,7 @@
                                     @forelse ($conversations as $conversation)
                                         <!-- Card -->
                                         <div id="conversation-list">
-                                            <a href="#" style="all: unset;" class="card border-0 text-reset conversation-item"
+                                            <a href="#" style="all: unset; cursor: pointer;" class="card border-0 text-reset conversation-item"
                                                 id="loadConversation"
                                                 id="conversation_id"
                                                 data-id="{{ $conversation->id }}" 
