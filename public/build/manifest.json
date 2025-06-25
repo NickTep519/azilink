@@ -3,12 +3,12 @@
     "file": "assets/pusherClient-4ab91934.js"
   },
   "resources/css/app.css": {
-    "file": "assets/app-cc27a504.css",
+    "file": "assets/app-179954eb.css",
     "isEntry": true,
     "src": "resources/css/app.css"
   },
   "resources/js/app.js": {
-    "file": "assets/app-fc32542f.js",
+    "file": "assets/app-dc013a87.js",
     "imports": [
       "_pusherClient-4ab91934.js"
     ],

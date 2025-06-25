@@ -61,6 +61,7 @@ document.querySelectorAll(".conversation-item").forEach((item) => {
 
 document.addEventListener("DOMContentLoaded", function () {
     const conversationLinks = document.querySelectorAll("#loadConversation");
+    const mainContainer = document.querySelector('.main');
 
     conversationLinks.forEach((link) => {
         link.addEventListener("click", function (event) {
@@ -72,6 +73,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 .then((response) => response.json())
                 .then((data) => {
                     displayConversation(data);
+                    
+    				// Afficher la box contenant les détails d'une conversation
+    				mainContainer.classList.add('is-visible');
 
                     const conversationId =
                         document.getElementById("conversation_id").value;
@@ -358,9 +362,9 @@ function displayConversation(conversation) {
 
                                 <!-- Mobile: close -->
                                 <div class="col-2 d-xl-none">
-                                    <a class="icon icon-lg text-muted" href="#" data-toggle-chat="">
+                                    <button type="button" id="closeConversation" class="border-none">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-left"><polyline points="15 18 9 12 15 6"></polyline></svg>
-                                    </a>
+                                    </button> 
                                 </div>
                                 <!-- Mobile: close -->
 
@@ -447,7 +451,7 @@ function displayConversation(conversation) {
 
                         <!-- Chat: Content -->
                         <div class="chat-body hide-scrollbar flex-1 h-100">
-                            <div class="chat-body-inner">
+                            <div class="chat-body-inner py-9 py-lg-0">
                                 <div class="py-6 py-lg-12">
 
                                     ${conversation.messages
@@ -552,6 +556,15 @@ function displayConversation(conversation) {
 
         body.scrollTop = body.scrollHeight - footerHeight;
     });
+    
+    
+    // Button permettant de fermer la conversation sur mobile
+    const closeConversationBtn = document.getElementById('closeConversation');
+    const mainContainer = document.querySelector('.main');
+    
+    closeConversationBtn?.addEventListener('click', function() {
+        mainContainer?.classList.contains('is-visible') && mainContainer?.classList.remove('is-visible');
+    })
 }
 
 function renderMessage(message, userId) {
