@@ -83,10 +83,10 @@ class AnnonceController extends Controller
     
     public function archive(Annonce $annonce) {
 
-        if ($annonce->status == 'en_attente' ) {
+        // if ($annonce->status == 'en_attente' ) {
             
-            return redirect()->back()->with('warning', 'Vous ne pouvez pas achiver, le trajet est toujours en attente d\'acceptation') ; 
-        } 
+        //     return redirect()->back()->with('warning', 'Vous ne pouvez pas achiver, le trajet est toujours en attente d\'acceptation') ; 
+        // } 
         
         $annonce->status = 'archive'  ; 
         $annonce->save() ; 

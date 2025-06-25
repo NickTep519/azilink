@@ -19,6 +19,13 @@ class MessengerController extends Controller
         $user = auth()->user();
 
         $conversations = $user->conversations()
+            ->where(function ($query) use ($user) {
+                $query->where('visibility', 'active')
+                    ->orWhere(function ($q) use ($user) {
+                        $q->where('visibility', 'draft')
+                            ->where('creator_id', $user->id); // seul le créateur voit les drafts
+                    });
+            })
             ->with([
                 'users',
                 'messages' => fn($q) => $q->orderBy('created_at', 'asc'),
@@ -150,6 +157,10 @@ class MessengerController extends Controller
             'user_id' => auth()->id(),
             'content' => $request->content,
         ]);
+
+        if ($message->conversation->visibility === 'draft') {
+            $message->conversation->update(['visibility' => 'active']);
+        }
 
         $message->readers()->attach(auth()->id(), ['read_at' => now()]);
 

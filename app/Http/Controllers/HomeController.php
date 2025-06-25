@@ -18,10 +18,6 @@ class HomeController extends Controller
 {
     public function index() {
 
-
-        // $user = User::find(18); 
-        // Notification::send($user, new NewNotif("Hello ", "/dashboard"));
-
         $offers = Annonce::enAttente()->offers()->orderBy('created_at', 'desc')->limit(6)->get() ; 
         $requests = Annonce::enAttente()->requests()->orderBy('created_at', 'desc')->limit(8)->get() ; 
         
@@ -32,17 +28,6 @@ class HomeController extends Controller
                                     ->orderBy('ads_count', 'desc')                                  // Trie par nombre d'annonces
                                     ->take(10)                                                     // Limite aux 10 premières villes (optionnel)
                                     ->get();
-    // dd($popularCitiesAnnonces) ; 
-
-    // Mail::to(Auth::user())->send(new CommandeAlerteMail('babababab', 'gegegegeg', Commande::find(19))) ;
-
-    
-
-    // Auth::user()->notify(new NewNotification('titre', 'message', 'lient')) ; 
-    // $notif = Auth::user()->notifications()->latest()->first() ; 
-
-    // dd($notif->data['time']->diffForHumans()) ; 
-    // Auth::user()->notify(new NewNotification('Nick vous a envoyé un message', route('home'))) ; 
 
 
         return view('home', [

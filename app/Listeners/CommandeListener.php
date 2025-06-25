@@ -61,7 +61,7 @@ class CommandeListener
 
                     // Mis à jour du kilo restant de l'annonce
                     $event->commande->annonce->kg_restant = ($event->commande->annonce->kg - $event->commande->kg_commande);
-                    $message = '✅ La commande a été acceptée' ; 
+                    $message = '✅ La commande a été acceptée';
                     $content = $this->getContentMessage($event->commande, $message, $subject);
 
 
@@ -82,8 +82,8 @@ class CommandeListener
 
                     $event->commande->receverUser->notify(new NewNotif(Str::limit($messageBodyRecever, 40), route('commandes.index')));
                     $event->commande->creatorUser->notify(new NewNotif(Str::limit($messageBodyCreator, 40), route('commandes.index')));
-                    
-                    $message = '❌ La commande a été refusée.' ; 
+
+                    $message = '❌ La commande a été refusée.';
                     $content = $this->getContentMessage($event->commande, $message, $subject);
 
                     $event->commande->conversation->messages()->create([
@@ -105,7 +105,7 @@ class CommandeListener
                     $event->commande->receverUser->notify(new NewNotif(Str::limit($messageBodyRecever, 40), route('commandes.index')));
                     $event->commande->creatorUser->notify(new NewNotif(Str::limit($messageBodyCreator, 40), route('commandes.index')));
 
-                    $message = '⚠️ La commande a été annulée.'; 
+                    $message = '⚠️ La commande a été annulée.';
                     $content = $this->getContentMessage($event->commande, $message, $subject);
 
                     $event->commande->conversation->messages()->create([
@@ -127,7 +127,7 @@ class CommandeListener
                     $event->commande->receverUser->notify(new NewNotif(Str::limit($messageBodyRecever, 40), route('commandes.index')));
                     $event->commande->creatorUser->notify(new NewNotif(Str::limit($messageBodyCreator, 40), route('commandes.index')));
 
-                    $message = '📬 La commande a été livrée.' ; 
+                    $message = '📬 La commande a été livrée.';
                     $content = $this->getContentMessage($event->commande, $message, $subject);
 
                     $event->commande->conversation->messages()->create([
@@ -149,7 +149,7 @@ class CommandeListener
                     $event->commande->receverUser->notify(new NewNotif(Str::limit($messageBodyRecever, 40), route('commandes.index')));
                     $event->commande->creatorUser->notify(new NewNotif(Str::limit($messageBodyCreator, 40), route('commandes.index')));
 
-                    $message = '📦 Commande expédiée. Elle est en cours de livraison.' ; 
+                    $message = '📦 Commande expédiée. Elle est en cours de livraison.';
                     $content = $this->getContentMessage($event->commande, $message, $subject);
 
                     $event->commande->conversation->messages()->create([
@@ -171,7 +171,7 @@ class CommandeListener
                     $event->commande->receverUser->notify(new NewNotif(Str::limit($messageBodyRecever, 40), route('commandes.index')));
                     $event->commande->creatorUser->notify(new NewNotif(Str::limit($messageBodyCreator, 40), route('commandes.index')));
 
-                    $message = '✔️ Réception de la commande confirmée.' ; 
+                    $message = '✔️ Réception de la commande confirmée.';
                     $content = $this->getContentMessage($event->commande, $message, $subject);
 
                     $event->commande->conversation->messages()->create([
@@ -216,17 +216,22 @@ class CommandeListener
             $annonce->senderUser()->associate($commande->receverUser);
             $annonce->save();
 
+            if ($annonce->kg_restant !== null && $annonce->kg_restant >= $commande->kg) {
+                $annonce->kg_restant -= (int) $commande->kg_commande;
+                $annonce->save();
+            } else {
+                
+                throw new \Exception('Poids insuffisant dans l\'annonce');
+            }
 
             $conversation = Conversation::findOrFail($event->data['conversation_id']);
 
-            $message = '🟡 La commande a été créée et est en attente de validation.' ; 
+            $message = '🟡 La commande a été créée et est en attente de validation.';
 
             $conversation->messages()->create([
                 'user_id' => auth()->id(),
                 'content' => $this->getContentMessage($commande, $message, 'Nouvelle commande dispo'),
             ]);
-
-            // dd($event->commande->creatorUser) ; 
 
             $subject = "Nouvelle commande";
             $messageBodyRecever = "Une nouvelle commande a été créé en votre nom par {$commande->creatorUser?->name}.";

@@ -274,7 +274,8 @@ class ConversationController extends Controller
             /** @var Conversation $conversation  */
 
             $conversation = Conversation::create([
-                'title' => $annonce->title
+                'title' => $annonce->title,
+                'creator_id' => auth()->id(),
             ]);
 
             $conversation->users()->sync($userIds);

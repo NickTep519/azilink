@@ -520,15 +520,15 @@ function displayConversation(conversation) {
                                         </a>
                                     </div>
 
+                                    <input id="conversation_id" type="hidden" name="conversation_id" value="${
+                                        conversation.id
+                                    }" >
+
                                     <div class="col">
                                         <div class="input-group">
                                             <textarea id="content" name="content" class="form-control px-0" placeholder="Tapez votre message..." rows="1" > ${conversation.session} </textarea>
                                         </div>
                                     </div>
-
-                                    <input id="conversation_id" type="hidden" name="conversation_id" value="${
-                                        conversation.id
-                                    }" >
 
                                     <div class="col-auto">
                                         <button id="submitMessage" type="submit" class="btn btn-icon btn-primary rounded-circle ms-5">

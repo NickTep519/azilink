@@ -16,6 +16,9 @@ class Conversation extends Model
 
     protected $appends = ['recipient', 'session'];
 
+    const STATUS_DRAFT = 'draft';
+    const STATUS_ACTIVE = 'active';
+
     public function getRecipientAttribute()
     {
         $otherUser = $this->users->firstWhere('id', '!=', auth()->id());
@@ -46,6 +49,10 @@ class Conversation extends Model
         return $this->belongsTo(Annonce::class);
     }
 
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'creator_id');
+    }
 
     public function users()
     {
