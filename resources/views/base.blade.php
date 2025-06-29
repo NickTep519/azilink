@@ -68,14 +68,18 @@
                                                     <p class="text-md-bold mb-10 neutral-1000">Commencez</p>
                                                     <h5 class="mb-45 neutral-1000">La meilleure expérience en gagnant
                                                         avec vos espaces bagages libres et en sécurisant vos colis
-                                                        confiés.</h5><a class="btn btn-brand-secondary btn-signin"
+                                                        confiés.</h5>
+                                                        @guest
+                                                        <a class="btn btn-brand-secondary btn-signin"
                                                         href="#">Connectez-vous
                                                         <svg width="16" height="16" viewbox="0 0 16 16"
                                                             fill="none" xmlns="http://www.w3.org/2000/svg">
                                                             <path d="M8 15L15 8L8 1M15 8L1 8" stroke="black"
                                                                 stroke-width="1.5" stroke-linecap="round"
                                                                 stroke-linejoin="round"> </path>
-                                                        </svg></a>
+                                                        </svg>
+                                                        </a>
+                                                        @endguest
                                                 </div>
                                                 <div class="col-lg-4">
                                                     <div class="card-home-link background-body"> <a class="card-icon"
@@ -284,7 +288,7 @@
 
                                 <li><a href="{{ route('contact') }}">Contact</a></li>
                                 @auth
-                                    <li><a href="{{ route('conversations.index') }}">Messages</a></li>
+                                    <li><a href="{{ route('messenger.base') }}">Messages</a></li>
                                     <li><a href="{{ route('profile.edit') }}">Paramètre</a></li>
                                 @endauth
 
@@ -352,7 +356,7 @@
                                 <div class="item-icon"> <img
                                         src="{{ asset('dash/assets/imgs/template/icons/message.svg') }}" alt="AziLink">
                                 </div>
-                                <div class="item-info"> <a href="{{ route('conversations.index') }}">
+                                <div class="item-info"> <a href="{{ route('messenger.base') }}">
                                         <h6 class="text-md-bold neutral-1000">Messages</h6>
                                     </a>
                                     <p class="text-xs neutral-500">Converser avec d'autre utilisateur</p>
@@ -422,9 +426,11 @@
                         <div class="col-md-6 col-sm-6">
                             <h6>Commencer</h6>
                             <ul class="menu-footer">
+                                @guest
                                 <li><a href="{{ route('login') }}">Se Connecter</a></li>
                                 <li><a href="{{ route('register') }}">S'inscrire</a></li>
                                 <li><a class="btn-signin" href="">Créer une demande</a></li>
+                                @endguest
                                 <li><a href="">Créer une offre</a></li>
                                 <li><a href=""> Trouver un annonce </a></li>
                             </ul>

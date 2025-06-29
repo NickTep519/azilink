@@ -151,9 +151,9 @@
                                                 <div class="card-meta">
                                                     <div class="card-seats" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
                                                         <div class="box-author-small" style="display: flex; align-items: center; gap: 8px;">
-                                                            <img src="<?php echo e(asset('storage/'.$offer->creatorUser->image)); ?>" alt="Travilla" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+                                                            <img src="<?php echo e(asset('storage/'.$offer->creatorUser?->image)); ?>" alt="Travilla" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
                                                             <p class="text-sm-bold neutral-1000"> 
-                                                                <a href="<?php echo e(route('users.details', $offer->creatorUser->slug )); ?>" style="color: black; text-decoration: none;" class="text-sm-bold">
+                                                                <a href="<?php echo e(route('users.details', $offer->creatorUser?->slug )); ?>" style="color: black; text-decoration: none;" class="text-sm-bold">
                                                                     <?php echo e($offer->creatorUser->pseudo); ?> <?php echo e($offer->creatorUser->profileBadge()); ?>
 
                                                                 </a>

@@ -189,7 +189,7 @@
                                                         <div class="col-auto">
                                                             <div class="avatar avatar-online">
                                                                 
-                                                                <img src="/storage/<?php echo e($conversation->users->except(auth()->id())->first()->image); ?>"
+                                                                <img src="/storage/<?php echo e($conversation->users->except(auth()->id())->first()?->image); ?>"
                                                                     alt="#" class="avatar-img">
                                                             </div>
                                                         </div>
@@ -198,7 +198,7 @@
                                                             <div class="d-flex align-items-center mb-3">
                                                                 <h5 class="me-auto mb-0">
                                                                     <?php echo e($conversation->users->except(auth()->id())->pluck('pseudo')->join(', ')); ?> |
-                                                                    <?php echo Str::limit($conversation->annonce->title, 40); ?>
+                                                                    <?php echo Str::limit($conversation->annonce?->title, 40); ?>
 
                                                                 
                                                                
@@ -332,12 +332,13 @@
 
     <!-- Modal: User profile -->
     <div class="modal fade" id="modal-user-profile" tabindex="-1" aria-labelledby="modal-user-profile"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-fullscreen-xl-down">
-            <div class="modal-content">
+        aria-hidden="true"
+        style="z-index: 999999999;">
+        <div class="modal-dialog modal-dialog-centered modal-fullscreen-xl-down justify-content-center h-auto">
+            <div class="modal-content m-5">
 
                 <!-- Modal body -->
-                <div class="modal-body py-0">
+                <div class="modal-body py-0 m-5">
                     <!-- Header -->
                     <div class="profile modal-gx-n">
                         

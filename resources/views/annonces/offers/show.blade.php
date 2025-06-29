@@ -98,7 +98,7 @@
                 <div class="container">
                     <div class="tour-header tour-header-on-top">
                         <div class="box-author-small">
-                            <img src="{{ asset('storage/'.$offer->creatorUser->image) }}" alt="Travilla" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+                            <img src="{{ asset('storage/'.$offer->creatorUser?->image) }}" alt="Travilla" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
                             <p class="text-sm-bold" style="color: white" > 
                                 <a href="{{ route('users.details', $offer->creatorUser->slug ) }}" style="color: white; text-decoration: none;" class="text-sm-bold">
                                     {{ $offer->creatorUser->pseudo }} {{  $offer->creatorUser->profileBadge() }}
@@ -312,15 +312,13 @@
                                             <input type="hidden" name="annonce_id" value="{{ $offer->id }}">
 
                                             <div class="box-button-book">
-                                                <a class="btn btn-book"> <button type="submit"
-                                                        style="all:unset ; color: white">Contacter</button>
-                                                    <svg width="16" height="16" viewbox="0 0 16 16"
-                                                        fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M8 15L15 8L8 1M15 8L1 8" stroke=""
-                                                            stroke-width="1.5" stroke-linecap="round"
-                                                            stroke-linejoin="round"></path>
-                                                    </svg>
-                                                </a>
+                                                 <button class="btn btn-book" type="submit" style="color: white">
+                                                    <a>Contacter
+                                                        <svg width="16" height="16" viewbox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M8 15L15 8L8 1M15 8L1 8" stroke="" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                        </svg>
+                                                    </a>
+                                                </button>
                                             </div>
 
                                         </form>
