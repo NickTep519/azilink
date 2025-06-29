@@ -413,7 +413,7 @@
                                                         <div class="col-auto">
                                                             <div class="avatar avatar-online">
                                                                 
-                                                                <img src="/storage/{{ $conversation->users->except(auth()->id())->first()->image }}"
+                                                                <img src="/storage/{{ $conversation->users->except(auth()->id())->first()?->image }}"
                                                                     alt="#" class="avatar-img">
                                                             </div>
                                                         </div>
@@ -422,7 +422,7 @@
                                                             <div class="d-flex align-items-center mb-3">
                                                                 <h5 class="me-auto mb-0">
                                                                     {{ $conversation->users->except(auth()->id())->pluck('pseudo')->join(', ') }} |
-                                                                    {!! Str::limit($conversation->annonce->title, 40) !!}
+                                                                    {!! Str::limit($conversation->annonce?->title, 40) !!}
                                                                 {{-- <a href="{{ $conversation->annonce->type ? route('offers.show', [$conversation->annonce->slug(), $conversation->annonce]) : route('requests.show', [$conversation->annonce->slug(), $conversation->annonce]) }}" style="all: unset" > </a> --}}
                                                                
                                                                 </h5>
@@ -3144,9 +3144,7 @@
 
                                 <!-- Mobile: more -->
                                 <div class="col-2 d-xl-none text-end">
-                                    <a href="##" class="icon icon-lg text-muted" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-more" aria-controls="offcanvas-more">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
-                                    </a>
+                                    
                                 </div>
                                 <!-- Mobile: more -->
 
@@ -4276,12 +4274,13 @@
 
     <!-- Modal: User profile -->
     <div class="modal fade" id="modal-user-profile" tabindex="-1" aria-labelledby="modal-user-profile"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-fullscreen-xl-down">
-            <div class="modal-content">
+        aria-hidden="true"
+        style="z-index: 999999999;">
+        <div class="modal-dialog modal-dialog-centered modal-fullscreen-xl-down justify-content-center h-auto">
+            <div class="modal-content m-5">
 
                 <!-- Modal body -->
-                <div class="modal-body py-0">
+                <div class="modal-body py-0 m-5">
                     <!-- Header -->
                     <div class="profile modal-gx-n">
                         {{-- <div class="profile-img text-primary rounded-top-xl">

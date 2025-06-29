@@ -439,9 +439,29 @@ function displayConversation(conversation) {
 
                                 <!-- Mobile: more -->
                                 <div class="col-2 d-xl-none text-end">
-                                    <a href="#" class="icon icon-lg text-muted" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-more" aria-controls="offcanvas-more">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
-                                    </a>
+                                    <div class="row align-items-center justify-content-end gx-6">
+                                        <div class="col-auto">
+                                          
+                                        </div>
+
+                                        <div class="col-auto"> ${
+                                            parseInt(document.body.dataset.userId) === conversation.recipient.id ? '' : `
+                                            
+                                            <div class="avatar-group">
+                                                <a href="#" class="avatar avatar-sm" data-bs-toggle="modal" data-bs-target="#modal-user-profile">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                                                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1.5 7A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.49-.402L1.61 3.607 1.11 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 6h8.17l1.2-5.6H3.102z"/>
+                                                            <path d="M5.5 12a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm8 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                                                    </svg>
+
+                                                </a>
+
+                                            </div>
+                                            `
+                                        }
+                                            
+                                        </div>
+                                    </div>
                                 </div>
                                 <!-- Mobile: more -->
 

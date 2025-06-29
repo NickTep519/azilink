@@ -15,10 +15,23 @@
           <li>Réduction des coûts d'envoi de colis</li>
           <li>Rapidité du service</li>
         </ul>
-        <div class="box-buttons-banner mt-65"> <a class="btn btn-brand-secondary" href="<?php echo e(route('register')); ?>"> Commencer
+        <div class="box-buttons-banner mt-65">
+            <?php if(auth()->guard()->check()): ?>
+             <a class="btn btn-brand-secondary" href="<?php echo e(route('offers.index')); ?>"> Commencer
             <svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M12 19L19 12L12 5M19 12L5 12" stroke="" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-            </svg></a><a class="btn btn-how-work color-white" href="<?php echo e(route('offers.index')); ?>"><img src="assets/imgs/page/homepage10/play.png" alt="AziLink">Voir les Trajets</a></div>
+            </svg></a>
+            <?php endif; ?>
+            <?php if(auth()->guard()->guest()): ?>
+             <a class="btn btn-brand-secondary" href="<?php echo e(route('register')); ?>"> Commencer
+            <svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 19L19 12L12 5M19 12L5 12" stroke="" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg></a>
+            <?php endif; ?>
+            
+            <a class="btn btn-how-work color-white" href="<?php echo e(route('offers.index')); ?>"><img src="assets/imgs/page/homepage10/play.png" alt="AziLink">Voir les Trajets
+            </a>
+            </div>
         </div>
     </section>
 
