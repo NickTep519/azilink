@@ -41,7 +41,7 @@ class MessengerController extends Controller
             )
             ->values(); // Pour réindexer proprement
 
-        // dd($conversations) ; 
+        // dd($conversations) ;
 
         $totalUnread = Message::whereDoesntHave('readers', function ($query) {
             $query->where('user_id', auth()->id());

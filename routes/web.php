@@ -54,13 +54,13 @@ Route::get('/trajets', [DashboardController::class, 'trajets'])->middleware(['au
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit']);
-    Route::get('/profile-settings', [ProfileController::class, 'profile'])->middleware('verified')->name('profile.edit') ; 
+    Route::get('/profile-settings', [ProfileController::class, 'profile'])->middleware('verified')->name('profile.edit') ;
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::post('upload-image-profile', [ProfileController::class, 'uploadImage'])->name('upload.image');
 });
 
-Route::get('users/details/{user}', [UserDetailsController::class, 'userDetails'])->name('users.details')->middleware('auth') ; 
+Route::get('users/details/{user}', [UserDetailsController::class, 'userDetails'])->name('users.details')->middleware('auth') ;
 
 Route::prefix('/offres')->name('offers.')->controller(OfferController::class)->group(function () {
     Route::get('/', 'index')->name('index');
@@ -102,10 +102,10 @@ Route::prefix('messages')->controller(ConversationController::class)->name('conv
 });
 
 Route::prefix('/messenger')->controller(MessengerController::class)->name('messenger.')->middleware(['auth', 'verified', 'check.user.details'])->group(function() {
-    Route::get('/', 'base')->name('base') ; 
-    Route::get('/conversations/{id}/messages', 'index' )->name('index') ; 
-    Route::get('/conversations/{conversation}/show', 'show')->name('show') ; 
-    Route::post('/', 'store')->name('store') ; 
+    Route::get('/', 'base')->name('base') ;
+    Route::get('/conversations/{id}/messages', 'index' )->name('index') ;
+    Route::get('/conversations/{conversation}/show', 'show')->name('show') ;
+    Route::post('/', 'store')->name('store') ;
 }) ;
 
 
@@ -116,16 +116,17 @@ Route::get('/conversations/{conversationId}/new-messages', [ConversationControll
 
 
 Route::resource('commandes', CommandeController::class)->except(['show', 'create'])->middleware(['auth']);
+Route::get('commandes/requests', [CommandeController::class, 'request'] )->name('commandes.requests')->middleware('auth') ;
 Route::resource('conversations', ConversationController::class)->except(['show', 'index'])->middleware(['auth']);
-Route::resource('rates', RateController::class )  ; 
+Route::resource('rates', RateController::class )  ;
 
 Route::get('/get-popup-commande', function (Request $request) {
 
-    $commande = Commande::where('status', 'recue')->where('recever_id', auth()->user()->id)->orderBy('updated_at', 'desc')->first() ; 
+    $commande = Commande::where('status', 'recue')->where('recever_id', auth()->user()->id)->orderBy('updated_at', 'desc')->first() ;
 
     return response()->json([
         'id' => $commande->id,
-    ]); 
+    ]);
 });
 
 // Route::get('/notifications', [NotificationController::class, 'notifis']);
@@ -151,11 +152,11 @@ Route::post('/notifications/read-all', function(){
 
     auth()->user()->unreadNotifications->markAsRead();
     return response()->noContent();
-}) ; 
+}) ;
 
 Broadcast::routes(['middleware' => ['auth']]);
 
-Route::get('phone-verify', [PhoneVerificationController::class, 'phoneVerify'])->name('phone.verify') ; 
+Route::get('phone-verify', [PhoneVerificationController::class, 'phoneVerify'])->name('phone.verify') ;
 Route::post('/send-code', [PhoneVerificationController::class, 'send'])->name('phone.send');
 Route::post('/verify-code', [PhoneVerificationController::class, 'verify'])->name('verify.code.phone');
 

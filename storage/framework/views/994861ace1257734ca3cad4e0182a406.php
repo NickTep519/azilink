@@ -8,8 +8,6 @@
         content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1, shrink-to-fit=no, viewport-fit=cover">
     <meta name="color-scheme" content="light dark">
 
-    <title>Messenger - 2.2.0</title>
-
     <!-- Favicon -->
     <link rel="shortcut icon" href="messenger_assets/img/favicon/favicon.ico" type="image/x-icon">
 
@@ -43,11 +41,15 @@
             });
         }
     </script>
-    
+
     <style>
         .conversation-item:hover h5.me-auto {
             text-decoration: underline;
             text-underline-offset: 2px;
+        }
+
+        .active-conversation {
+            background-color: rgb(234, 234, 243);
         }
     </style>
 </head>
@@ -94,21 +96,7 @@
                 
 
                 <!-- Chats -->
-                <li class="nav-item">
-                    <a class="nav-link active py-0 py-lg-8" id="tab-chats" href="#tab-content-chats" title="Chats"
-                        data-bs-toggle="tab" role="tab">
-                        <div class="icon icon-xl icon-badged">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" class="feather feather-message-square">
-                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                            </svg>
-                            <div class="badge badge-circle bg-primary">
-                                <span><?php echo e($totalUnread); ?></span>
-                            </div>
-                        </div>
-                    </a>
-                </li>
+                
 
                 <!-- Notification -->
                 
@@ -177,19 +165,18 @@
                                     <?php $__empty_1 = true; $__currentLoopData = $conversations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $conversation): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                                         <!-- Card -->
                                         <div id="conversation-list">
-                                            <a href="#" style="all: unset; cursor: pointer;" class="card border-0 text-reset conversation-item"
-                                                id="loadConversation"
-                                                id="conversation_id"
-                                                data-id="<?php echo e($conversation->id); ?>" 
+                                            <a href="#" style="all: unset; cursor: pointer;"
+                                                class="card border-0 text-reset conversation-item" id="loadConversation"
+                                                id="conversation_id" data-id="<?php echo e($conversation->id); ?>"
                                                 data-url="<?php echo e(route('messenger.index', $conversation->id)); ?>"
                                                 data-conversation-id="<?php echo e($conversation->id); ?>">
 
                                                 <div class="card-body" id="conversation-<?php echo e($conversation->id); ?>">
-                                                    <div class="row gx-5">
+                                                    <div class="row gx-5 conversation-row" id="conversation-row-<?php echo e($conversation->id); ?>">
                                                         <div class="col-auto">
-                                                            <div class="avatar avatar-online">
-                                                                
-                                                                <img src="/storage/<?php echo e($conversation->users->except(auth()->id())->first()->image); ?>"
+                                                            <div class="avatar">
+
+                                                                <img src="/storage/<?php echo e($conversation->users->except(auth()->id())->first()?->image); ?>"
                                                                     alt="#" class="avatar-img">
                                                             </div>
                                                         </div>
@@ -197,11 +184,13 @@
                                                         <div class="col">
                                                             <div class="d-flex align-items-center mb-3">
                                                                 <h5 class="me-auto mb-0">
-                                                                    <?php echo e($conversation->users->except(auth()->id())->pluck('pseudo')->join(', ')); ?> |
-                                                                    <?php echo Str::limit($conversation->annonce->title, 40); ?>
+                                                                    <?php echo e($conversation->users->except(auth()->id())->pluck('pseudo')->join(', ')); ?>
 
-                                                                
-                                                               
+                                                                    |
+                                                                    <?php echo Str::limit($conversation->annonce?->title, 40); ?>
+
+                                                                    
+
                                                                 </h5>
                                                                 <span class="text-muted extra-small ms-2">
                                                                     
@@ -332,12 +321,12 @@
 
     <!-- Modal: User profile -->
     <div class="modal fade" id="modal-user-profile" tabindex="-1" aria-labelledby="modal-user-profile"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-fullscreen-xl-down">
-            <div class="modal-content">
+        aria-hidden="true" style="z-index: 999999999;">
+        <div class="modal-dialog modal-dialog-centered modal-fullscreen-xl-down justify-content-center h-auto">
+            <div class="modal-content m-5">
 
                 <!-- Modal body -->
-                <div class="modal-body py-0">
+                <div class="modal-body py-0 m-5">
                     <!-- Header -->
                     <div class="profile modal-gx-n">
                         
@@ -411,7 +400,7 @@
     <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
     <?php echo app('Illuminate\Foundation\Vite')('resources/js/app.js'); ?>
     <?php echo app('Illuminate\Foundation\Vite')('resources/js/filterConvers.js'); ?>
- 
+
 </body>
 
 </html>
