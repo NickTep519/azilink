@@ -360,9 +360,9 @@
                             <div class="box-breadcrumb">
                                 <div class="breadcrumbs">
                                     <ul>
-                                        <li> <a class="icon-home" href="#">Accueil</a></li>
-                                        <li><a class="icon-home" href="#">Commandes</a></li>
-                                        <li><span>Liste</span></li>
+                                        <li> <a class="icon-home" href="{{ route('commandes.index') }}">Offres</a></li>
+                                        <li><a class="icon-home" href="{{ route('commandes.requests') }}">Demandes</a></li>
+                                        {{-- <li><span>Liste</span></li> --}}
                                     </ul>
                                 </div>
                             </div>
@@ -458,7 +458,7 @@
                                                             </li>
                                                         @endif
                                                         @if ($commande->status == 'accepte')
-                                                         
+
                                                             <li>
                                                                 <form action="{{ route('commandes.update', $commande) }}"
                                                                     method="POST">
@@ -485,10 +485,10 @@
                                                                     </button>
                                                                 </form>
                                                             </li>
-                                                            
+
                                                         @endif
                                                         @if ($commande->status == 'expediee')
-                                                         
+
                                                             <li>
                                                                 <form action="{{ route('commandes.update', $commande) }}"
                                                                     method="POST">
@@ -515,8 +515,8 @@
                                                                     </button>
                                                                 </form>
                                                             </li>
-                    
-                                                            
+
+
                                                         @endif
 
                                                     @else
@@ -546,7 +546,7 @@
                                                                 </form>
                                                             </li>
                                                         @endif
-                                                     
+
                                                         @if ($commande->status == 'expediee' || $commande->status == 'livree')
                                                             <li>
                                                                 <form action="{{ route('commandes.update', $commande) }}"
@@ -628,7 +628,7 @@
                 @csrf
 
                 <div class="fieldsett">
-                    
+
                 </div>
 
                 <div class="fieldset">

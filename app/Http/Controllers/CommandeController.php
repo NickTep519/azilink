@@ -17,43 +17,50 @@ class CommandeController extends Controller
     public function index()
     {
         $commandes = Commande::where('creator_id', auth()->id())
-                                    ->orWhere('recever_id', auth()->id())
-                                    ->orderBy('updated_at', 'desc')
-                                    ->with(['annonce.creatorUser', 'receverUser', 'creatorUser'])
-                                    ->paginate(15) ;
-                                    
-        // $annonces = Annonce::all() ; 
-                                    
-                                    
+            ->orderBy('updated_at', 'desc')
+            ->with(['annonce.creatorUser', 'receverUser', 'creatorUser'])
+            ->paginate(15);
+
+        // $annonces = Annonce::all() ;
+
+
         // foreach ($annonces as $annonce) {
 
         //     $commandess = $annonce->commandes ;
-        //     $nKg = 0 ;  
+        //     $nKg = 0 ;
         //     foreach ($commandess as $commande) {
-                
-        //         $nKg += $commande->kg_commande ; 
+
+        //         $nKg += $commande->kg_commande ;
         //     }
 
-        //     $annonce->kg_restant = ($annonce->kg - $nKg) ; 
+        //     $annonce->kg_restant = ($annonce->kg - $nKg) ;
 
-        //     $annonce->save() ; 
+        //     $annonce->save() ;
 
         // }
 
-        
+
         return view('commandes.index', [
-                'commandes' => $commandes                        
-            ]) ; 
+            'commandes' => $commandes
+        ]);
 
         // return response()->json([
         //     'data' => $commandes
-        // ]) ; 
+        // ]) ;
 
-  
+    }
 
+    public function request()
+    {
 
-                                    
-     
+        $commandes = Commande::where('recever_id', auth()->id())
+            ->orderBy('updated_at', 'desc')
+            ->with(['annonce.creatorUser', 'receverUser', 'creatorUser'])
+            ->paginate(15);
+
+        return view('commandes.requests', [
+            'commandes' => $commandes
+        ]);
     }
 
     /**
@@ -77,41 +84,37 @@ class CommandeController extends Controller
             'conversation_id' => 'required|numeric|min:1',
         ]);
 
-        // dd($validated) ; 
+        // dd($validated) ;
 
-        
-        $annonce = Annonce::findOrFail($validated['annonce_id']) ; 
-        
+
+        $annonce = Annonce::findOrFail($validated['annonce_id']);
+
         // if($annonce->creatorUser->id != auth()->user()->id) {
-            
-        //     return back()->with('warning', 'Vous n\'etes pas autorisé à faire cette action') ; 
-            
+
+        //     return back()->with('warning', 'Vous n\'etes pas autorisé à faire cette action') ;
+
         // }
-        
-        $nbr_kilo_annonce = 0 ; 
-        
-        $commandes = $annonce->commandes ; 
-        
+
+        $nbr_kilo_annonce = 0;
+
+        $commandes = $annonce->commandes;
+
         foreach ($commandes as $commande) {
-            
-            $nbr_kilo_annonce += $commande->kg_commande ; 
-            
+
+            $nbr_kilo_annonce += $commande->kg_commande;
         }
-       
-       
+
+
         if ($validated['kg_commande'] > ($annonce->kg - $nbr_kilo_annonce)) {
-            
-            return back()->with('warning', 'Plus d\'assez kilo disponible pour ce trajet, créer un nouveau') ; 
-            
+
+            return back()->with('warning', 'Plus d\'assez kilo disponible pour ce trajet, créer un nouveau');
         } else {
-            
-            event(new CommandeEvent( new Commande() , $validated) ) ;
+
+            event(new CommandeEvent(new Commande(), $validated));
         }
-        
-        
-        return redirect()->route('commandes.index')->with('success', 'Votre commande a bien été créée') ; 
-        
-        
+
+
+        return redirect()->route('commandes.index')->with('success', 'Votre commande a bien été créée');
     }
 
     /**
@@ -136,13 +139,13 @@ class CommandeController extends Controller
     public function update(Request $request, Commande $commande)
     {
         $validated = $request->validate([
-            
+
             'status' => 'required|in:creee,conflit,expediee,accepte,refuse,termine,annule,livree,recue'
         ]);
-        
-        event(new CommandeEvent($commande, $validated) ) ;
-        
-        return redirect()->back()->with('success', 'Le status de votre commande a bien été mis à jour') ; 
+
+        event(new CommandeEvent($commande, $validated));
+
+        return redirect()->back()->with('success', 'Le status de votre commande a bien été mis à jour');
     }
 
     /**

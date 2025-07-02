@@ -8,7 +8,7 @@
     "src": "resources/css/app.css"
   },
   "resources/js/app.js": {
-    "file": "assets/app-30c93d8e.js",
+    "file": "assets/app-506ed63b.js",
     "imports": [
       "_pusherClient-4ab91934.js"
     ],

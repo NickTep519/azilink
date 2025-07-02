@@ -61,11 +61,25 @@ document.querySelectorAll(".conversation-item").forEach((item) => {
 
 document.addEventListener("DOMContentLoaded", function () {
     const conversationLinks = document.querySelectorAll("#loadConversation");
-    const mainContainer = document.querySelector('.main');
+    const mainContainer = document.querySelector(".main");
 
     conversationLinks.forEach((link) => {
         link.addEventListener("click", function (event) {
             event.preventDefault();
+
+            const conversationId = this.dataset.id;
+
+            // Supprime la classe active de toutes les conversations
+            document.querySelectorAll(".conversation-row").forEach((row) => {
+                row.classList.remove("active-conversation");
+            });
+
+            const activeRow = document.getElementById(
+                `conversation-row-${conversationId}`
+            );
+            if (activeRow) {
+                activeRow.classList.add("active-conversation");
+            }
 
             const url = this.getAttribute("data-url");
 
@@ -73,9 +87,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 .then((response) => response.json())
                 .then((data) => {
                     displayConversation(data);
-                    
-    				// Afficher la box contenant les détails d'une conversation
-    				mainContainer.classList.add('is-visible');
+
+                    // Afficher la box contenant les détails d'une conversation
+                    mainContainer.classList.add("is-visible");
 
                     const conversationId =
                         document.getElementById("conversation_id").value;
@@ -113,7 +127,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         const senderId = data.user.id;
 
                         const isCurrentConversation =
-                            conversationId ===
+                            conversationId ==
                             parseInt(
                                 document.getElementById("conversation_id").value
                             );
@@ -127,9 +141,20 @@ document.addEventListener("DOMContentLoaded", function () {
                             document.body.dataset.userId
                         );
 
-                        const html = renderMessage(data, currentUserId);
+                        // console.log('cuurentConc :',  parseInt(
+                        //         document.getElementById("conversation_id").value
+                        //     )) ;
 
-                        messagesContainer.insertAdjacentHTML("beforeend", html);
+                        // console.log("autreConv : ", isCurrentConversation) ;
+
+                        if (isCurrentConversation) {
+                            const html = renderMessage(data, currentUserId);
+
+                            messagesContainer.insertAdjacentHTML(
+                                "beforeend",
+                                html
+                            );
+                        }
 
                         // 1. Mettre à jour le dernier message dans la liste
                         const lastMessageElement = document.getElementById(
@@ -206,8 +231,8 @@ document.addEventListener("DOMContentLoaded", function () {
                         } finally {
                             submitMessage.disabled = false;
                             submitMessage.innerHTML = `
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
-                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" 
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                     stroke-linecap="round" stroke-linejoin="round" class="feather feather-send">
                                     <line x1="22" y1="2" x2="11" y2="13"></line>
                                     <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
@@ -349,7 +374,7 @@ function displayConversation(conversation) {
                                 </li>
                             </ul>
                         </form>
-    
+
     `;
 
     messagesContainer.innerHTML = ""; // Vide le conteneur avant de remplir
@@ -364,7 +389,7 @@ function displayConversation(conversation) {
                                 <div class="col-2 d-xl-none">
                                     <button type="button" id="closeConversation" class="border-none">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-left"><polyline points="15 18 9 12 15 6"></polyline></svg>
-                                    </button> 
+                                    </button>
                                 </div>
                                 <!-- Mobile: close -->
 
@@ -397,8 +422,8 @@ function displayConversation(conversation) {
                                                                   .users[0]
                                                                   .pseudo
                                                     } | ${
-                                                        conversation.annonce.title
-                                                    } 
+        conversation.annonce.title
+    }
                                                     </h5>
                                                     <p class="text-truncate"><span class='typing-dots'><span>.</span><span>.</span><span>.</span></span></p>
                                                 </div>
@@ -410,12 +435,18 @@ function displayConversation(conversation) {
                                         <div class="col-xl-6 d-none d-xl-block">
                                             <div class="row align-items-center justify-content-end gx-6">
                                                 <div class="col-auto">
-                                                  
+
                                                 </div>
 
                                                 <div class="col-auto"> ${
-                                                    parseInt(document.body.dataset.userId) === conversation.recipient.id ? '' : `
-                                                    
+                                                    parseInt(
+                                                        document.body.dataset
+                                                            .userId
+                                                    ) ===
+                                                    conversation.recipient.id
+                                                        ? ""
+                                                        : `
+
                                                     <div class="avatar-group">
                                                         <a href="#" class="avatar avatar-sm" data-bs-toggle="modal" data-bs-target="#modal-user-profile">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
@@ -428,7 +459,7 @@ function displayConversation(conversation) {
                                                     </div>
                                                     `
                                                 }
-                                                    
+
                                                 </div>
                                             </div>
                                         </div>
@@ -441,12 +472,16 @@ function displayConversation(conversation) {
                                 <div class="col-2 d-xl-none text-end">
                                     <div class="row align-items-center justify-content-end gx-6">
                                         <div class="col-auto">
-                                          
+
                                         </div>
 
                                         <div class="col-auto"> ${
-                                            parseInt(document.body.dataset.userId) === conversation.recipient.id ? '' : `
-                                            
+                                            parseInt(
+                                                document.body.dataset.userId
+                                            ) === conversation.recipient.id
+                                                ? ""
+                                                : `
+
                                             <div class="avatar-group">
                                                 <a href="#" class="avatar avatar-sm" data-bs-toggle="modal" data-bs-target="#modal-user-profile">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
@@ -459,7 +494,7 @@ function displayConversation(conversation) {
                                             </div>
                                             `
                                         }
-                                            
+
                                         </div>
                                     </div>
                                 </div>
@@ -499,7 +534,7 @@ function displayConversation(conversation) {
                                                             message.content
                                                         } </p>
                                                     </div>
-                                      
+
                                                 </div>
 
                                             </div>
@@ -519,7 +554,7 @@ function displayConversation(conversation) {
 
                                     <!-- Divider -->
                                     <div class="message-divider">
-                                      
+
                                     </div>
 
                                 </div>
@@ -536,7 +571,7 @@ function displayConversation(conversation) {
 
                             <!-- Chat: Form -->
                             <div id="myForm"  class="chat-form rounded-pill bg-dark" >
-                             
+
                                 <div class="row align-items-center gx-0">
                                     <div class="col-auto">
                                         <a href="#" class="btn btn-icon btn-link text-body rounded-circle" id="dz-btn">
@@ -550,7 +585,9 @@ function displayConversation(conversation) {
 
                                     <div class="col">
                                         <div class="input-group">
-                                            <textarea id="content" name="content" class="form-control px-0" placeholder="Tapez votre message..." rows="1" > ${conversation.session} </textarea>
+                                            <textarea id="content" name="content" class="form-control px-0" placeholder="Tapez votre message..." rows="1" > ${
+                                                conversation.session
+                                            } </textarea>
                                         </div>
                                     </div>
 
@@ -576,15 +613,15 @@ function displayConversation(conversation) {
 
         body.scrollTop = body.scrollHeight - footerHeight;
     });
-    
-    
+
     // Button permettant de fermer la conversation sur mobile
-    const closeConversationBtn = document.getElementById('closeConversation');
-    const mainContainer = document.querySelector('.main');
-    
-    closeConversationBtn?.addEventListener('click', function() {
-        mainContainer?.classList.contains('is-visible') && mainContainer?.classList.remove('is-visible');
-    })
+    const closeConversationBtn = document.getElementById("closeConversation");
+    const mainContainer = document.querySelector(".main");
+
+    closeConversationBtn?.addEventListener("click", function () {
+        mainContainer?.classList.contains("is-visible") &&
+            mainContainer?.classList.remove("is-visible");
+    });
 }
 
 function renderMessage(message, userId) {
@@ -618,7 +655,7 @@ function renderMessage(message, userId) {
             </div>
         </div>
         <div class="message-divider">
-                                      
+
         </div>
     `;
 }

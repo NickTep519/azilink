@@ -8,8 +8,6 @@
         content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1, shrink-to-fit=no, viewport-fit=cover">
     <meta name="color-scheme" content="light dark">
 
-    <title>Messenger - 2.2.0</title>
-
     <!-- Favicon -->
     <link rel="shortcut icon" href="messenger_assets/img/favicon/favicon.ico" type="image/x-icon">
 
@@ -43,11 +41,15 @@
             });
         }
     </script>
-    
+
     <style>
         .conversation-item:hover h5.me-auto {
             text-decoration: underline;
             text-underline-offset: 2px;
+        }
+
+        .active-conversation {
+            background-color: rgb(234, 234, 243);
         }
     </style>
 </head>
@@ -177,7 +179,7 @@
                 </li> --}}
 
                 <!-- Chats -->
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link active py-0 py-lg-8" id="tab-chats" href="#tab-content-chats" title="Chats"
                         data-bs-toggle="tab" role="tab">
                         <div class="icon icon-xl icon-badged">
@@ -191,7 +193,7 @@
                             </div>
                         </div>
                     </a>
-                </li>
+                </li> --}}
 
                 <!-- Notification -->
                 {{-- <li class="nav-item">
@@ -401,18 +403,17 @@
                                     @forelse ($conversations as $conversation)
                                         <!-- Card -->
                                         <div id="conversation-list">
-                                            <a href="#" style="all: unset; cursor: pointer;" class="card border-0 text-reset conversation-item"
-                                                id="loadConversation"
-                                                id="conversation_id"
-                                                data-id="{{ $conversation->id }}" 
+                                            <a href="#" style="all: unset; cursor: pointer;"
+                                                class="card border-0 text-reset conversation-item" id="loadConversation"
+                                                id="conversation_id" data-id="{{ $conversation->id }}"
                                                 data-url="{{ route('messenger.index', $conversation->id) }}"
                                                 data-conversation-id="{{ $conversation->id }}">
 
                                                 <div class="card-body" id="conversation-{{ $conversation->id }}">
-                                                    <div class="row gx-5">
+                                                    <div class="row gx-5 conversation-row" id="conversation-row-{{ $conversation->id }}">
                                                         <div class="col-auto">
-                                                            <div class="avatar avatar-online">
-                                                                
+                                                            <div class="avatar">
+
                                                                 <img src="/storage/{{ $conversation->users->except(auth()->id())->first()?->image }}"
                                                                     alt="#" class="avatar-img">
                                                             </div>
@@ -421,10 +422,11 @@
                                                         <div class="col">
                                                             <div class="d-flex align-items-center mb-3">
                                                                 <h5 class="me-auto mb-0">
-                                                                    {{ $conversation->users->except(auth()->id())->pluck('pseudo')->join(', ') }} |
+                                                                    {{ $conversation->users->except(auth()->id())->pluck('pseudo')->join(', ') }}
+                                                                    |
                                                                     {!! Str::limit($conversation->annonce?->title, 40) !!}
-                                                                {{-- <a href="{{ $conversation->annonce->type ? route('offers.show', [$conversation->annonce->slug(), $conversation->annonce]) : route('requests.show', [$conversation->annonce->slug(), $conversation->annonce]) }}" style="all: unset" > </a> --}}
-                                                               
+                                                                    {{-- <a href="{{ $conversation->annonce->type ? route('offers.show', [$conversation->annonce->slug(), $conversation->annonce]) : route('requests.show', [$conversation->annonce->slug(), $conversation->annonce]) }}" style="all: unset" > </a> --}}
+
                                                                 </h5>
                                                                 <span class="text-muted extra-small ms-2">
                                                                     {{-- {{ $conversation->messages->last()->created_at->translatedFormat('H:i') }} --}}
@@ -3144,7 +3146,7 @@
 
                                 <!-- Mobile: more -->
                                 <div class="col-2 d-xl-none text-end">
-                                    
+
                                 </div>
                                 <!-- Mobile: more -->
 
@@ -4274,8 +4276,7 @@
 
     <!-- Modal: User profile -->
     <div class="modal fade" id="modal-user-profile" tabindex="-1" aria-labelledby="modal-user-profile"
-        aria-hidden="true"
-        style="z-index: 999999999;">
+        aria-hidden="true" style="z-index: 999999999;">
         <div class="modal-dialog modal-dialog-centered modal-fullscreen-xl-down justify-content-center h-auto">
             <div class="modal-content m-5">
 
@@ -4505,7 +4506,7 @@
     <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
     @vite('resources/js/app.js')
     @vite('resources/js/filterConvers.js')
- 
+
 </body>
 
 </html>
