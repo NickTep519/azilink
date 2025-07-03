@@ -43,7 +43,11 @@ yarn-error.log
 /storage/framework/views/*
 !/storage/framework/views/.gitignore
 
-# Logs Laravel ➜ garder dossier mais pas les fichiers
+# Ignore contenu sessions sauf .gitignore
+/storage/framework/sessions/*
+!/storage/framework/sessions/.gitignore
+
+# Ignore logs sauf .gitignore
 /storage/logs/*
 !/storage/logs/.gitignore
 
