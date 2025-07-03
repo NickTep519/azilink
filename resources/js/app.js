@@ -141,12 +141,6 @@ document.addEventListener("DOMContentLoaded", function () {
                             document.body.dataset.userId
                         );
 
-                        // console.log('cuurentConc :',  parseInt(
-                        //         document.getElementById("conversation_id").value
-                        //     )) ;
-
-                        // console.log("autreConv : ", isCurrentConversation) ;
-
                         if (isCurrentConversation) {
                             const html = renderMessage(data, currentUserId);
 

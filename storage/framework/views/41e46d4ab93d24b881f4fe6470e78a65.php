@@ -1,1 +1,0 @@
-<?php /**PATH D:\projets\taffe\azilink\resources\views\messagerie\base.blade.php ENDPATH**/ ?>
