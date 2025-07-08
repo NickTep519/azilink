@@ -14,7 +14,7 @@ class Conversation extends Model
 
     protected $guarded = [];
 
-    protected $appends = ['recipient', 'session'];
+    protected $appends = ['recipient', 'session', 'linkannonce'];
 
     const STATUS_DRAFT = 'draft';
     const STATUS_ACTIVE = 'active';
@@ -32,7 +32,17 @@ class Conversation extends Model
 
     public function getSessionAttribute(){
 
-        return ! $this->messages()->exists() ? session()->get('message', '') : ' ' ; 
+        return ! $this->messages()->exists() ? session()->get('message', '') : ' ' ;
+    }
+
+    public function getLinkannonceAttribute() {
+
+        if ($this->annonce->type) {
+            return route('offers.show', [$this->annonce->slug(), $this->annonce]) ;
+        } else {
+            return route('requests.show', [$this->annonce->slug(), $this->annonce]) ;
+        }
+
     }
 
 

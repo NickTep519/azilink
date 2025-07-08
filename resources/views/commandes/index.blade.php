@@ -357,15 +357,15 @@
                             <div class="box-title">
                                 <h4 class="neutral-1000 mb-15">Mes commandes</h4>
                             </div>
-                            <div class="box-breadcrumb">
+                            {{-- <div class="box-breadcrumb">
                                 <div class="breadcrumbs">
                                     <ul>
                                         <li> <a class="icon-home" href="{{ route('commandes.index') }}">Offres</a></li>
                                         <li><a class="icon-home" href="{{ route('commandes.requests') }}">Demandes</a></li>
-                                        {{-- <li><span>Liste</span></li> --}}
+                                        <li><span>Liste</span></li>
                                     </ul>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
 
                     </div>
@@ -379,7 +379,8 @@
                                     <th class="mw-145"><span class="sort">Poids</span></th>
                                     <th class="mw-145"><span class="sort">Prix/Kg</span></th>
                                     <th class="mw-145"><span class="sort">Prix total</span></th>
-                                    <th class="mw-450"><span class="sort">Client</span></th>
+                                    <th class="mw-450"><span class="sort">Envoyeur</span></th>
+                                    <th class="mw-450"><span class="sort">Receveur</span></th>
                                     <th class="mw-145"><span class="sort">Status</span></th>
                                     <th class="mw-145"><span class="sort">Date</span></th>
                                     <th class="mw-76">Action</th>
@@ -390,16 +391,18 @@
 
                                 @forelse ($commandes as $commande)
                                     <tr>
-                                        <td> <span class="text-md-medium neutral-500"> {{ $commande->commande_no }}
+                                        <td> <span class="text-md-medium neutral-500"> {{ $commande->commande_no }} </td>
                                         <td> <span class="text-md-medium neutral-500"> {{ $commande->annonce->title }}
                                             </span></td>
                                         <td> <span class="text-md-medium neutral-500"> {{ $commande->kg_commande }} kg</span>
                                         </td>
                                         <td> <span class="text-md-medium neutral-500"> {{ $commande->price }} €</span></td>
                                         <td> <span class="text-md-medium neutral-500"> {{ $commande->total }} €</span></td>
-                                        <td> <span class="text-md-medium neutral-500"> {{ $commande->receverUser->name }}
-                                                {{ $commande->receverUser->first_name }} </span>
+                                        <td> <span class="text-md-medium neutral-500"> {{ $commande->creatorUser->pseudo }} </span>
                                         </td>
+                                        <td> <span class="text-md-medium neutral-500"> {{ $commande->receverUser->pseudo }} </span>
+                                        </td>
+
 
                                         @if ($commande->status == 'creee')
                                             <td> <span class="btn btn-status"> Créée </span> </td>

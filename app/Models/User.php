@@ -37,6 +37,13 @@ class User extends Authenticatable implements MustVerifyEmail
         'remember_token',
     ];
 
+    // protected $appends = ['link'] ;
+
+    public function getLinkAttribute() {
+
+        return route('users.details', ['user' => $this->slug]);
+    }
+
     public function readMessages()
     {
         return $this->belongsToMany(Message::class)->withPivot('read_at');
@@ -66,7 +73,7 @@ class User extends Authenticatable implements MustVerifyEmail
     $totalRates = $this->rates()->count();
 
     if ($totalRates === 0) {
-        return null; 
+        return null;
     }
 
     return $this->rates()->sum('rate') / $totalRates;
@@ -99,29 +106,29 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function profileLevel() {
 
-        $level = $this->verificationLevel() ; 
+        $level = $this->verificationLevel() ;
 
         return match( $level) {
             4 => 'Niveau de Vérification Certifié ✨',
-            3 => 'Niveau de Vérification Avancé ✔️', 
-            2 => 'Niveau de Vérification Intermédiaire ✅', 
-            1 => 'Niveau de Vérification Basique ⚠️', 
-            default => 'Utilisateur Non vérifié (Invité).❓', 
-        } ; 
+            3 => 'Niveau de Vérification Avancé ✔️',
+            2 => 'Niveau de Vérification Intermédiaire ✅',
+            1 => 'Niveau de Vérification Basique ⚠️',
+            default => 'Utilisateur Non vérifié (Invité).❓',
+        } ;
     }
 
 
     public function progress() {
 
-        $level = $this->verificationLevel() ; 
+        $level = $this->verificationLevel() ;
 
         return match($level) {
             4 => 100,
             3 => 75,
-            2 => 50, 
-            1 => 25, 
+            2 => 50,
+            1 => 25,
             default => 0
-        } ; 
+        } ;
     }
 
 
@@ -137,7 +144,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function hasVerifiedAdress() : bool {
 
-        return !is_null($this->address_verified_at) ; 
+        return !is_null($this->address_verified_at) ;
     }
 
 
@@ -145,7 +152,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function setNameAttribute($value)
     {
         $this->attributes['name'] = $value;
-    
+
         $slug = Str::slug($this->pseudo);
 
         $this->attributes['slug'] = $this->generateUniqueSlug($slug);
@@ -172,7 +179,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $this->notify(new VerifyEmailCustom());
     }
-    
+
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new CustomPasswordReset($token));
@@ -184,81 +191,81 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function messagesTo() {
 
-        return $this->hasMany(Message::class, 'to_id') ; 
+        return $this->hasMany(Message::class, 'to_id') ;
     }
 
     public function messagesFrom() {
 
-        return $this->hasMany(Message::class, 'from_id') ; 
+        return $this->hasMany(Message::class, 'from_id') ;
     }
 
     public function unreadCount() {
 
-        return $this->messagesFrom()->where('read_at', NULL)->count()  ; 
+        return $this->messagesFrom()->where('read_at', NULL)->count()  ;
     }
 
 
     public function lastMessage() {
 
         return Message::where(function($query) {
-                
-            $query->where('from_id', Auth::user()->id)->where('to_id', $this->id)  ; 
+
+            $query->where('from_id', Auth::user()->id)->where('to_id', $this->id)  ;
 
         })->orWhere(function($query) {
 
-            $query->where('from_id', $this->id)->where('to_id', Auth::user()->id) ; 
-            
-        })->orderBy('created_at', 'desc')->latest()->first() ; 
+            $query->where('from_id', $this->id)->where('to_id', Auth::user()->id) ;
+
+        })->orderBy('created_at', 'desc')->latest()->first() ;
     }
 
             /***************** Annonce *********/
 
     public function travelerAnnonces() : HasMany {
 
-        return $this->hasMany(Annonce::class, 'traveler_id') ; 
+        return $this->hasMany(Annonce::class, 'traveler_id') ;
     }
 
     public function senderAnnonces() : HasMany {
 
-        return $this->hasMany(Annonce::class, 'sender_id') ; 
+        return $this->hasMany(Annonce::class, 'sender_id') ;
     }
 
     public function creatorAnnonces() : HasMany {
 
-        return $this->hasMany(Annonce::class, 'creator_id') ; 
+        return $this->hasMany(Annonce::class, 'creator_id') ;
     }
 
             /***************** Commande *********/
 
     public function creatorCommandes() {
 
-        return $this->hasMany(Commande::class, 'creator_id') ; 
+        return $this->hasMany(Commande::class, 'creator_id') ;
     }
 
     public function receverCommandes() {
 
-        return $this->hasMany(Commande::class, 'recever_id') ; 
+        return $this->hasMany(Commande::class, 'recever_id') ;
     }
 
     public function rates() {
-        
-        return $this->hasMany(Rate::class) ; 
+
+        return $this->hasMany(Rate::class) ;
     }
-    
+
     /***************** conversation *********/
-    
+
    public function conversations() : BelongsToMany {
 
-        return $this->belongsToMany(Conversation::class) ; 
+        return $this->belongsToMany(Conversation::class) ;
    }
 
    public function messages() {
 
-        return $this->hasMany(Message::class) ; 
+        return $this->hasMany(Message::class) ;
    }
 
    public function lastAnnonce() {
 
-        return $this->creatorAnnonces()->latest()->first()  ; 
+        return $this->creatorAnnonces()->latest()->first()  ;
    }
 }

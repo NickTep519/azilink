@@ -408,16 +408,14 @@ function displayConversation(conversation) {
                                                 </div>
 
                                                 <div class="col overflow-hidden">
-                                                    <h5 class="text-truncate"> ${
+                                                    <h5 class="text-truncate"> <a href="users/details/${conversation.users[0].slug}" target="_blanc" > ${
                                                         conversation.users
                                                             .length > 1
                                                             ? conversation.title
                                                             : conversation
                                                                   .users[0]
                                                                   .pseudo
-                                                    } | ${
-        conversation.annonce.title
-    }
+                                                    } </a> | <a href="${conversation.linkannonce}" target="_blanc"  > ${conversation.annonce.title} </a>
                                                     </h5>
                                                     <p class="text-truncate"><span class='typing-dots'><span>.</span><span>.</span><span>.</span></span></p>
                                                 </div>

@@ -17,36 +17,14 @@ class CommandeController extends Controller
     public function index()
     {
         $commandes = Commande::where('creator_id', auth()->id())
+            ->orWhere('recever_id', auth()->id())
             ->orderBy('updated_at', 'desc')
             ->with(['annonce.creatorUser', 'receverUser', 'creatorUser'])
             ->paginate(15);
 
-        // $annonces = Annonce::all() ;
-
-
-        // foreach ($annonces as $annonce) {
-
-        //     $commandess = $annonce->commandes ;
-        //     $nKg = 0 ;
-        //     foreach ($commandess as $commande) {
-
-        //         $nKg += $commande->kg_commande ;
-        //     }
-
-        //     $annonce->kg_restant = ($annonce->kg - $nKg) ;
-
-        //     $annonce->save() ;
-
-        // }
-
-
         return view('commandes.index', [
             'commandes' => $commandes
         ]);
-
-        // return response()->json([
-        //     'data' => $commandes
-        // ]) ;
 
     }
 
@@ -88,12 +66,6 @@ class CommandeController extends Controller
 
 
         $annonce = Annonce::findOrFail($validated['annonce_id']);
-
-        // if($annonce->creatorUser->id != auth()->user()->id) {
-
-        //     return back()->with('warning', 'Vous n\'etes pas autorisé à faire cette action') ;
-
-        // }
 
         $nbr_kilo_annonce = 0;
 

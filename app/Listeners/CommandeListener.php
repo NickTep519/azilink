@@ -220,7 +220,7 @@ class CommandeListener
                 $annonce->kg_restant -= (int) $commande->kg_commande;
                 $annonce->save();
             } else {
-                
+
                 throw new \Exception('Poids insuffisant dans l\'annonce');
             }
 
@@ -254,32 +254,12 @@ class CommandeListener
         $status = $commande->status;
         $formHtml = '';
 
-        $route = route('commandes.update', $commande);
 
-        // if ($creatorId === $userId) {
-        //     if ($status === 'creee') { 
-        //         $formHtml .= $this->generateForm($route, 'annule', 'Annuler');
-        //     }
+        // Sécurité XSS
+        $subject = htmlspecialchars($subject, ENT_QUOTES, 'UTF-8');
+        $message = nl2br(htmlspecialchars($message, ENT_QUOTES, 'UTF-8'));
 
-        //     if ($status === 'accepte') {
-        //         $formHtml .= $this->generateForm($route, 'expediee', 'Expedier');
-        //         $formHtml .= $this->generateForm($route, 'annule', 'Annuler');
-        //     }
-
-        //     if ($status === 'expediee') {
-        //         $formHtml .= $this->generateForm($route, 'livree', 'Livrer');
-        //         $formHtml .= $this->generateForm($route, 'annule', 'Annuler');
-        //     }
-        // } else {
-        //     if ($status === 'creee') {
-        //         $formHtml .= $this->generateForm($route, 'accepte', 'Accepter');
-        //         $formHtml .= $this->generateForm($route, 'refuse', 'Refuser');
-        //     }
-
-        //     if (in_array($status, ['expediee', 'livree'])) {
-        //         $formHtml .= $this->generateForm($route, 'recue', 'Reçue');
-        //     }
-        // }
+        $route =  route('commandes.index') ;
 
 
         $content = <<<HTML
@@ -298,7 +278,7 @@ class CommandeListener
                         <div class="d-flex">
                             <div class="me-auto">
                                 {$message}
-                            </div>    
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -308,7 +288,7 @@ class CommandeListener
                 <div class="row gx-4">
                     <!-- {$formHtml} -->
                     <div class="col">
-                        <a href="/commandes" class="btn btn-sm btn-primary w-100">Voir les commandes</a>
+                        <a href="{$route}" class="btn btn-sm btn-primary w-100">Voir les commandes</a>
                     </div>
                 </div>
             </div>
